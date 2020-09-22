@@ -12,9 +12,11 @@
 			<p class="card-text">seats: {{event.seats}}</p>
 			<a href="{{event.get_absolute_url}}" class="btn" style="background-color: #e3f2fd; color: black;">View</a>
 		</div>
+
 	</div>
 </div>
 	{% endfor %}
 </div>
+<a class="btn" style="background-color: #e3f2fd; color: black;" href="{% url 'event-create' %}" >Create new Event</a>
 
 {% endblock content %}

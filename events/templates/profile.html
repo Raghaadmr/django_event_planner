@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="col-sm-4">
+  <h2>{{ user.get_full_name }}</h2>
+  <ul>
+    <li>Username: {{ user.user }}</li>
+    <li>Location: {{ user.userprofile.location }}</li>
+    <li>Birth Date: {{ user.userprofile.birth_date }}</li>
+  </ul>
+	</div>
+  <a class = "btn btn-primary btn-xl mt-5" href="{% url 'dashboardt' %}" role="button">Dashboard</a>
+
+
+
+{% endblock content %}

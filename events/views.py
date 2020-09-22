@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin , EventForm
+from .forms import UserSignup, UserLogin , EventForm, ProfileForm
 from django.contrib import messages
-from .models import Event
+from .models import Event, TicketsHolder, UserProfile
 
 def home(request):
     return render(request, 'home.html')
@@ -62,16 +63,24 @@ class Logout(View):
         return redirect("login")
 
 
+def profile(request, user_id):
+    user = User.objects.get(pk=user_id)
+    context = {
+    	"user": user,
+    }
+    return render(request, 'profile.html', context)
+
+
 def dashboard(request):
-	events = Event.objects.all()
-	context = {
-		"events": events,
-	}
-	return render(request, 'dashboard.html', context)
+    events = Event.objects.filter(event_organizer=request.user)
+    context = {
+        "events": events,
+    }
+    return render(request, 'dashboard.html', context)
 
 
 
-def event_detail(request, classroom_id):
+def event_detail(request, event_id):
 	event = Event.objects.get(id=event_id)
 	context = {
 		"event": event,
@@ -80,38 +89,44 @@ def event_detail(request, classroom_id):
 
 
 def event_create(request):
-	form = EventForm()
-	if request.method == "POST":
-		form = EventForm(request.POST, request.FILES or None)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Successfully Created!")
-			return redirect('dashboard')
-		print (form.errors)
-	context = {
-	"form": form,
-	}
-	return render(request, 'event_create.html', context)
+    if not request.user.is_staff:
+        return redirect('signin')
+    form = EventForm()
+    if request.method == "POST":
+    	form = EventForm(request.POST, request.FILES or None)
+    	if form.is_valid():
+            event = form.save(commit=False)
+            event.event_organizer = request.user
+            form.save()
+            messages.success(request, "Successfully Created!")
+            return redirect('dashboard')
+    	print (form.errors)
+    context = {
+        "form": form,
+    }
+    return render(request, 'event_create.html', context)
 
 
 def event_update(request, event_id):
-	event = Event.objects.get(id=event_id)
-	form = EventForm(instance=event)
-	if request.method == "POST":
-		form = EventForm(request.POST, request.FILES or None, instance=event)
-		if form.is_valid():
-			form.save()
-			messages.success(request, "Successfully Edited!")
-			return redirect('dashboard')
-		print (form.errors)
-	context = {
-	"form": form,
-	"event": event,
-	}
-	return render(request, 'event_update.html', context)
+    event = Event.objects.get(id=event_id)
+    if request.user.is_staff:
+        form = EventForm(instance=event)
+        if request.method == "POST":
+        	form = EventForm(request.POST, request.FILES or None, instance=event)
+        	if form.is_valid():
+        		form.save()
+        		messages.success(request, "Successfully Edited!")
+        		return redirect('dashboard')
+        	print (form.errors)
+        context = {
+        "form": form,
+        "event": event,
+        }
+    return render(request, 'event_update.html', context)
 
 
 def event_delete(request, event_id):
-	Event.objects.get(id=event_id).delete()
-	messages.success(request, "Successfully Deleted!")
-	return redirect('dashboard')
+    if request.user.is_staff:
+    	Event.objects.get(id=event_id).delete()
+    	messages.success(request, "Successfully Deleted!")
+    	return redirect('dashboard')

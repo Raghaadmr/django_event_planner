@@ -7,11 +7,10 @@ urlpatterns = [
     path('login/', Login.as_view(), name='login'),
     path('logout/', Logout.as_view(), name='logout'),
 	path('dashboard/', dashboard, name='dashboard'),
-    path('dashboard/<int:event_id>/', event_detail, name='event-detail'),
-
-    path('dashboard/create', event_create, name='event-create'),
-    path('dashboard/<int:event_id>/update/', event_update, name='event-update'),
-    path('dashboard/<int:event_id>/delete/', event_delete, name='event-delete'),
+    path('event/<int:event_id>/', event_detail, name='event-detail'),
+    path('event/create/', event_create, name='event-create'),
+    path('event/<int:event_id>/update/', event_update, name='event-update'),
+    path('event/<int:event_id>/delete/', event_delete, name='event-delete'),
 
 
 ]
