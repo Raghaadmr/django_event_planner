@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="form-inline my-3 my-lg-3" action="{% url 'event-list' %}">
+  <input class="form-control mr-sm-2" type="text" name='search_term' placeholder="Search">
+  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+</form>
+<div class="row">
+
+	{% for event in events %}
+<div class="col-sm-4">
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title">Name: {{event.name}}</h5>
+			<p class="card-text">description: {{event.description}}</p>
+			<p class="card-text">seats: {{event.seats}}</p>
+			<a href="{{event.get_absolute_url}}" class="btn" style="background-color: #e3f2fd; color: black;">View</a>
+      <a href="{% url 'ticket' event.id %}" class="btn" style="background-color: #FFA500; color: #000034;">book ticket</a>
+
+		</div>
+
+	</div>
+</div>
+	{% endfor %}
+</div>
+
+{% endblock content %}

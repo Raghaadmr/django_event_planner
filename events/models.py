@@ -19,14 +19,14 @@ class Event(models.Model):
         return reverse('event-detail', kwargs={'event_id': self.id})
 
 class TicketsHolder(models.Model):
-    user=models.ForeignKey(User,on_delete=models.CASCADE)
-    seats = models.IntegerField(validators=[MinValueValidator(1),
+    user=models.ForeignKey(User,on_delete=models.DO_NOTHING)
+    tickets = models.IntegerField(validators=[MinValueValidator(1),
                                        MaxValueValidator(20)])
     event=models.ForeignKey(Event,on_delete=models.CASCADE)
 
 
 class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.DO_NOTHING)
     bio = models.TextField(max_length=500, blank=True)
     location = models.CharField(max_length=30, blank=True)
     birth_date = models.DateField(null=True, blank=True)
@@ -38,8 +38,8 @@ class UserProfile(models.Model):
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
-        Profile.objects.create(user=instance)
+        UserProfile.objects.create(user=instance)
 
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
-    instance.profile.save()
+    instance.userprofile.save()

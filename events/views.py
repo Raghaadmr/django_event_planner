@@ -2,9 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin , EventForm, ProfileForm
+from .forms import UserSignup, UserLogin , EventForm, ProfileForm, TicketForm
 from django.contrib import messages
 from .models import Event, TicketsHolder, UserProfile
+from django.db.models import Q
 
 def home(request):
     return render(request, 'home.html')
@@ -62,14 +63,72 @@ class Logout(View):
         messages.success(request, "You have successfully logged out.")
         return redirect("login")
 
+#User
 
-def profile(request, user_id):
-    user = User.objects.get(pk=user_id)
+def event_list(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    events = Event.objects.all()
+    query = request.GET.get('search_term')
+    if query:
+        events = events.filter(
+            Q(name__icontains=query) |
+            Q(description__icontains=query) |
+            Q(event_organizer__username__icontains=query)
+        ).distinct()
     context = {
-    	"user": user,
+        "events": events
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'event_list.html', context)
 
+
+
+def book_ticket(request, event_id):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    form = TicketForm()
+    event = Event.objects.get(id=event_id)
+    if request.method == "POST":
+        form = TicketForm(request.POST)
+        if form.is_valid():
+            guest = form.save(commit=False)
+            # TicketForm.event = event
+            # TicketForm.user=request.user
+            if guest.tickets <= event.seats:
+                event.seats -= guest.tickets
+                TicketForm.event = event
+                TicketForm.user=request.user
+                event.save()
+                guest.save()
+                messages.success(request, "Successfully book the ticket/s")
+            else:
+                messages.success(request, "Event is full!")
+
+        return redirect("event-list")
+
+    context = {
+	"form": form,
+	"event": event
+	}
+    return render(request, 'book_ticket.html', context)
+
+
+
+
+
+
+
+
+# def profile(request, ):
+#     user = User.objects.get(pk=user_id)
+#     context = {
+#     	"user": user,
+#     }
+#     return render(request, 'profile.html', context)
+
+
+
+#Orignaizer
 
 def dashboard(request):
     events = Event.objects.filter(event_organizer=request.user)
