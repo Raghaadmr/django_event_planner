@@ -2,21 +2,101 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <header class="masthead text-center text-white">
-  <div class="masthead-content">
-    <div class="container">
-        <div class="jumbotron">
-          <h2 class="masthead-subheading mb-0">Sign Up</h2>
-          <form action="{% url 'signup' %}" method="POST">
-            {% csrf_token %}
-            {{form|crispy}}
-            <input class = "btn btn-primary btn-xl rounded-pill mt-5" type="submit" value="Sign Up">
-          </form>
+  <section id="banner" data-video="images/banner">
+    <div class="inner">
+      <header>
+        <div class="masthead-content">
+          <div class="container">
+              <div class="jumbotron">
+                <h2 class="masthead-subheading mb-0">SignUp</h2>
+                <form action="{% url 'signup' %}" method="POST">
+                  {% csrf_token %}
+                  {{form|crispy}}
+                  <br>
+                  <br>
+            <input class = "button big alt scrolly" type="submit" value="Sign Up">
+            <a href="{% url 'login' %}">A friend!</a>
       </div>
     </div>
   </div>
+</header>
+
   <div class="bg-circle-1 bg-circle"></div>
   <div class="bg-circle-2 bg-circle"></div>
   <div class="bg-circle-3 bg-circle"></div>
   <div class="bg-circle-4 bg-circle"></div>
 </header>
+<!-- One -->
+  <section class="wrapper style1">
+    <div class="inner">
+      <header class="align-center">
+        <h2>KNOW MORE ABOUT OUR APP!</h2>
+        <p>Video below dhows how to simply use our app and it walk you though all Neverland features.</p>
+      </header>
+      <div class="video">
+        <div class="video-wrapper">
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/s6zR2T9vn2c" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <p class="caption">
+imagne something is written here! we just need some more monospace
+
+
+
+
+
+
+
+
+-          </p>
+      </div>
+    </div>
+  </section>
+
+<!-- Three -->
+  <section class="wrapper ">
+    <div class="inner">
+      <header class="align-center">
+        <h2>Our Satisfied Friends</h2>
+        <p>Here is some of our costumers sharing their experunce with us.</p>
+      </header>
+
+      <!-- 3 Column Video Section -->
+        <div class="flex flex-3">
+          <div class="video col">
+            <div class="image fit">
+              <img src=" https://www.google.com/url?sa=i&url=https%3A%2F%2Fpopcrush.com%2Fmatty-healy-coming-out-response%2F&psig=AOvVaw1lXuyH1XubvcZHo_jPaoXW&ust=1601003154814000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCLD2yNjngOwCFQAAAAAdAAAAABAJ" alt="" />
+
+            </div>
+            <p class="caption">
+              Cras eget lacus sed mauris scelerisque tincidunt
+            </p>
+          </div>
+          <div class="video col">
+            <div class="image fit">
+              <img src="images/pic10.jpg" alt="" />
+              <div class="arrow">
+                <div class="icon fa-play"></div>
+              </div>
+            </div>
+            <p class="caption">
+              Vivamus vulputate lacus non massa auctor lobortis
+            </p>
+            <a href="generic.html" class="link"><span>Click Me</span></a>
+          </div>
+          <div class="video col">
+            <div class="image fit">
+              <img src="images/pic11.jpg" alt="" />
+              <div class="arrow">
+                <div class="icon fa-play"></div>
+              </div>
+            </div>
+            <p class="caption">
+              Nam eu nisi non ante sodales interdum a vitae neque
+            </p>
+            <a href="generic.html" class="link"><span>Click Me</span></a>
+          </div>
+        </div>
+    </div>
+  </section>
+
 {% endblock %}

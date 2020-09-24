@@ -17,6 +17,8 @@
 </div>
 	{% endfor %}
 </div>
+{%if request.is_superuser%}
 <a class="btn" style="background-color: #e3f2fd; color: black;" href="{% url 'event-create' %}" >Create new Event</a>
+{%endif%}
 
 {% endblock content %}

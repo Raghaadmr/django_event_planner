@@ -11,17 +11,25 @@
 <div class="col-sm-4">
 	<div class="card">
 		<div class="card-body">
-			<h5 class="card-title">Name: {{event.name}}</h5>
-			<p class="card-text">description: {{event.description}}</p>
-			<p class="card-text">seats: {{event.seats}}</p>
-			<a href="{{event.get_absolute_url}}" class="btn" style="background-color: #e3f2fd; color: black;">View</a>
-      <a href="{% url 'ticket' event.id %}" class="btn" style="background-color: #FFA500; color: #000034;">book ticket</a>
+			<h5 class="card-title">  Name: {{event.name}}</h5>
+			<p class="card-text">  description: {{event.description}}</p>
+			<p class="card-text">  seats: {{event.seats}}</p>
 
+			<a href="{{event.get_absolute_url}}" class="button sm alt scrolly" style="background-color: #e3f2fd; color: black;">View</a>
+      {% if event.seats > 0 %}
+      <a href="{% url 'ticket' event.id %}" class="button sm alt scrolly" style="background-color: #FFA500; color: #000034;">book ticket</a>
+      {% else %}
+      <input type="button" value="FULL" class="button sm alt scrolly" style="background-color: red; color: black;">
+      {% endif %}
 		</div>
 
 	</div>
 </div>
 	{% endfor %}
 </div>
+<br>
+<br>
+<br>
 
+<a href="{% url 'home'  %}" class="button sm alt scrolly">Home</a>
 {% endblock content %}

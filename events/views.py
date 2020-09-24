@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.views import View
-from .forms import UserSignup, UserLogin , EventForm, ProfileForm, TicketForm
+from .forms import UserSignup, UserLogin , EventForm, TicketForm #,ProfileForm
 from django.contrib import messages
-from .models import Event, TicketsHolder, UserProfile
+from .models import Event, TicketsHolder#, UserProfile
+import datetime
 from django.db.models import Q
+from django.contrib.auth.models import Permission, User
+from django.contrib.contenttypes.models import ContentType
 
 def home(request):
     return render(request, 'home.html')
@@ -50,7 +53,7 @@ class Login(View):
             if auth_user is not None:
                 login(request, auth_user)
                 messages.success(request, "Welcome Back!")
-                return redirect('dashboard')
+                return redirect("home")
             messages.warning(request, "Wrong email/password combination. Please try again.")
             return redirect("login")
         messages.warning(request, form.errors)
@@ -65,10 +68,23 @@ class Logout(View):
 
 #User
 
+
+def userdashboard(request):
+    if not request.user.is_authenticated:
+        return redirect("login")
+    events = Event.objects.filter(event_organizer=request.user)
+    context = {
+        "events": events,
+        "history": TicketsHolder.objects.filter(user=request.user, event__date__lt=datetime.datetime.now()),
+        "reservations": TicketsHolder.objects.filter(user=request.user, event__date__gt=datetime.datetime.now()),
+    }
+    return render(request, "userdashboard.html", context)
+
+
 def event_list(request):
     if not request.user.is_authenticated:
         return redirect("login")
-    events = Event.objects.all()
+    events = Event.objects.filter(date__gte=datetime.datetime.now())
     query = request.GET.get('search_term')
     if query:
         events = events.filter(
@@ -92,17 +108,15 @@ def book_ticket(request, event_id):
         form = TicketForm(request.POST)
         if form.is_valid():
             guest = form.save(commit=False)
-            # TicketForm.event = event
-            # TicketForm.user=request.user
-            if guest.tickets <= event.seats:
-                event.seats -= guest.tickets
-                TicketForm.event = event
-                TicketForm.user=request.user
+            event.seats -= guest.tickets
+            if guest.tickets < event.seats:
+                guest.event = event
+                guest.user=request.user
                 event.save()
                 guest.save()
                 messages.success(request, "Successfully book the ticket/s")
             else:
-                messages.success(request, "Event is full!")
+                messages.warning(request, "Event is full!")
 
         return redirect("event-list")
 
@@ -141,15 +155,16 @@ def dashboard(request):
 
 def event_detail(request, event_id):
 	event = Event.objects.get(id=event_id)
+	users = TicketsHolder.objects.filter(event=event)
 	context = {
 		"event": event,
+		"users":users,
 	}
 	return render(request, 'event_detail.html', context)
 
-
 def event_create(request):
-    if not request.user.is_staff:
-        return redirect('signin')
+    if not request.user.is_authenticated:
+        return redirect('login')
     form = EventForm()
     if request.method == "POST":
     	form = EventForm(request.POST, request.FILES or None)
@@ -168,7 +183,7 @@ def event_create(request):
 
 def event_update(request, event_id):
     event = Event.objects.get(id=event_id)
-    if request.user.is_staff:
+    if request.user ==event.event_organizer:
         form = EventForm(instance=event)
         if request.method == "POST":
         	form = EventForm(request.POST, request.FILES or None, instance=event)
@@ -185,7 +200,7 @@ def event_update(request, event_id):
 
 
 def event_delete(request, event_id):
-    if request.user.is_staff:
+    if request.user ==event.event_organizer:
     	Event.objects.get(id=event_id).delete()
     	messages.success(request, "Successfully Deleted!")
     	return redirect('dashboard')

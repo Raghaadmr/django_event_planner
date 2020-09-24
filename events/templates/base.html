@@ -7,10 +7,9 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <title>Django Event Planner</title>
-    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Lato:100,100i,300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
-    <link href="{% static 'css/one-page-wonder.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/font-awesome.min.css' %}" rel="stylesheet">
+    <link href="{% static 'assets/css/main.css' %}" rel="stylesheet">
+
     <style>
         html {
           position: relative;
@@ -20,7 +19,7 @@
           margin-bottom: 60px;
         }
         .jumbotron{
-            background-color: black;
+            background-color: wh;
         }
         .messages{
             position: absolute;
@@ -43,17 +42,58 @@
     {% block content %}
 
     {% endblock %}
-<br>
+
 <br>
 <br>
 
-    <footer class="footer py-5 bg-black">
-      <div class="container">
-        <p class="m-0 text-center text-white small">Copyright &copy; Django Event Planner 2018</p>
+<footer id="footer">
+  <div class="inner">
+    <div class="flex flex-3">
+      <div class="col">
+        <h3>Concerts</h3>
+        <ul class="alt">
+          <li><a href="#">Riyadh</a></li>
+          <li><a href="#">Jeddah</a></li>
+          <li><a href="#">Kuwait</a></li>
+          <li><a href="#">London</a></li>
+        </ul>
       </div>
-    </footer>
+      <div class="col">
+        <h3>Anime conventions</h3>
+        <ul class="alt">
+          <li><a href="#">Dubai</a></li>
+          <li><a href="#">Riyadh</a></li>
+          <li><a href="#">Damam</a></li>
+          <li><a href="#">Jeddah</a></li>
+        </ul>
+      </div>
+      <div class="col">
+        <h3>Events</h3>
+        <ul class="alt">
+          <li><a href="#">Riyadh</a></li>
+          <li><a href="#">London</a></li>
+          <li><a href="#">Amestrdam</a></li>
+          <li><a href="#">Jeddah</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <ul class="icons">
+      <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+      <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+      <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+      <li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li>
+    </ul>
+  </a>.
+  </div>
+</footer>
 
-    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{%static "assets/js/jquery.min.js"%}"></script>
+    <script src="{%static "assets/js/jquery.scrolly.min.js"%}"></script>
+    <script src="{%static "assets/js/skel.min.js"%}"></script>
+    <script src="{%static "assets/js/util.js"%}"></script>
+    <script src="{%static "assets/js/main.js"%}"></script>
+
   </body>
 </html>

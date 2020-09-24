@@ -3,10 +3,14 @@
 
 {% block content %}
 <div class="container">
-  <form action="{% url 'ticket' event.id %}" method="POST">
+  <form style ="background-color:black" action="{% url 'ticket' event.id %}" method="POST">
 		{% csrf_token %}
 		{{form|crispy}}
+    {% if event.seats > 0 %}
 		<input type="submit" value="Book" class="btn" style="background-color: #e3f2fd; color: black;">
+    {% else %}
+    <input type="button" value="FULL" class="btn" style="background-color: red; color: black;">
+    {% endif %}
 	</form>
 </div>
 {% endblock content %}

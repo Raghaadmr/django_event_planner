@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-from .models import Event, UserProfile, TicketsHolder
+from .models import Event, TicketsHolder#, UserProfile,
 
 class UserSignup(forms.ModelForm):
     class Meta:
@@ -28,7 +28,7 @@ class TicketForm(forms.ModelForm):
         fields = ['tickets']
 
 
-class ProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('bio', 'location', 'birth_date')
+# class ProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ('bio', 'location', 'birth_date')

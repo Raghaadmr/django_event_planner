@@ -2,16 +2,32 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="card">
+
 <div class="card text-center">
   <div class="card-header" style="background-color: #e3f2fd; color: 000034;">
     Event Details
   </div>
   <div class="card-body">
-    <h5 class="card-title" style="color: 000034;">{{event.name}} {{event.subject}}</h5>
-    <p class="card-text" style="color: 000034;">{{event.year}}</p>
+    <h5 class="card-title" style="color: 000034;">  {{event.name}} </h5>
+    <p class="card-text" style="color: 000034;">  {{event.description}}</p>
+    <p class="card-text" style="color: 000034;">  {{event.date}}</p>
+    <p class="card-text" style="color: 000034;">  {{event.location}}</p>
+    <p class="card-text" style="color: 000034;">  {{event.price}}</p>
+
+    {% if request.user == event.event_organizer %}
     <a href="{% url 'event-update' event.id %}" class="btn" style="background-color: #000034; color: white;">Update</a>
     <a href="{% url 'event-delete' event.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
+
+    {% for user in users%}
+    <p class="card-text" style="color: 000034;"> reserverd by : {{user.user}}</p>
+    <p class="card-text" style="color: 000034;"> number of tickets : {{user.tickets}}</p>
+    <p class="card-text" style="color: 000034;"> Event : {{user.event}}</p>
+
+    {%endfor%}
+    {% endif %}
   </div>
+</div>
 </div>
 
 {% endblock content %}

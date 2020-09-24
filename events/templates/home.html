@@ -1,16 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <header class="masthead text-center text-white">
+	<section id="banner" data-video="images/Nirvana">
   <div class="masthead-content">
     <div class="container">
       <h1 class="masthead-heading mb-0">All the events,</h1>
       <h2 class="masthead-subheading mb-0">You could ever want...</h2>
-      {% if request.user.is_anonymous %}
-        <a href="{% url 'signup' %}" class="btn btn-primary btn-xl rounded-pill mt-5">Sign up to find events!</a>
-      {% else %}
-        <a href="#" class="btn btn-primary btn-xl rounded-pill mt-5">Find events!</a>
-      {% endif %}
+
     </div>
   </div>
   <div class="bg-circle-1 bg-circle"></div>
@@ -19,6 +17,140 @@
   <div class="bg-circle-4 bg-circle"></div>
 </header>
 
+</section>
+{% if request.user.is_anonymous %}
+	<a href="{% url 'signup' %}" class="button big alt scrolly" >Sign up to find events!</a>
+{%elif request.user_is_staff%}
+<a class="button big alt scrolly"  style="background-color: #e3f2fd; color: black;" href="{% url 'event-create' %}" >Create new Event</a>
+{%else%}
+	<a href="{% url 'event-list'%}" class="button big alt scrolly">Find events!</a>
+{% endif %}
+<section class="wrapper ">
+	<div class="inner">
+		<header class="align-center">
+			<h2>THIS WEEK EVENTS!</h2>
+			<p>23sept-1oct</p>
+		</header>
 
+		<!-- 3 Column Video Section -->
+			<div class="flex flex-3">
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="https://pbs.twimg.com/media/DTriUe6W4AYu_LI?format=jpg&name=medium" alt="image"></a>
+					</div>
+					<p class="caption">
+							Imagne dragons Concerts, Riyadh
+						</p>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+						<a href="#"><img src="https://anime-holyplace.com/wp-content/uploads/2019/11/コメント-2019-11-10-111002.png" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+Anime Expo, Dubai					</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="https://riotmag.co/wp-content/uploads/2020/01/people_-_press_pic_square_0.jpg" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+					The 1975 concert, Jeddah
+					</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+			</div>
+	</div>
+</section>
+<section class="wrapper ">
+	<div class="inner">
+		<header class="align-center">
+			<h2>UPCOMIN EVENTS</h2>
+		</header>
+
+		<!-- 3 Column Video Section -->
+			<div class="flex flex-3">
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="http://res.heraldm.com/content/image/2017/06/11/20170611000277_0.jpg" alt="image"></a>
+					</div>
+					<p class="caption">
+							GDRAGON Concerts, Riyadh
+						</p>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+						<a href="#"><img src="https://www.albiladdailyeng.com/wp-content/uploads/2019/09/saudi-heritage.jpg" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+Historic Event, Taif				</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="https://s.hdnux.com/photos/01/10/17/67/18939369/5/920x920.jpg" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+					NBA game, Riyadh
+					</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+			</div>
+	</div>
+</section>
+<section class="wrapper ">
+	<div class="inner">
+		<header class="align-center">
+			<h2>PAST EVENTS</h2>
+		</header>
+
+		<!-- 3 Column Video Section -->
+			<div class="flex flex-3">
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="https://www.reviewjournal.com/wp-content/uploads/2020/03/13423894_web1_AP20053367952290.jpg" alt="image"></a>
+					</div>
+					<p class="caption">
+							post malone Concerts, Riyadh
+						</p>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+						<a href="#"><img src="https://cdn.europosters.eu/image/750/julisteet/nirvana-alley-i14521.jpg" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+Nirvana concert, london					</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+				<div class="video col">
+					<div class="image fit">
+<a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Travis_Scott_-_Openair_Frauenfeld_2019_08.jpg/1280px-Travis_Scott_-_Openair_Frauenfeld_2019_08.jpg" alt="image"></a>
+						<div class="arrow">
+							<div class="icon fa-play"></div>
+						</div>
+					</div>
+					<p class="caption">
+					travis scot concert, Jeddah
+					</p>
+					<a href="generic.html" class="link"><span>Click Me</span></a>
+				</div>
+			</div>
+	</div>
+</section>
 
 {% endblock %}
