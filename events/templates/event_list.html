@@ -14,13 +14,16 @@
 			<h5 class="card-title">  Name: {{event.name}}</h5>
 			<p class="card-text">  description: {{event.description}}</p>
 			<p class="card-text">  seats: {{event.seats}}</p>
-
-			<a href="{{event.get_absolute_url}}" class="button sm alt scrolly" style="background-color: #e3f2fd; color: black;">View</a>
-      {% if event.seats > 0 %}
-      <a href="{% url 'ticket' event.id %}" class="button sm alt scrolly" style="background-color: #FFA500; color: #000034;">book ticket</a>
-      {% else %}
-      <input type="button" value="FULL" class="button sm alt scrolly" style="background-color: red; color: black;">
-      {% endif %}
+      {%if request.user.is_staff %}
+      <a href="{{event.get_absolute_url}}" class="button sm alt scrolly" style="background-color: #e3f2fd; color: black;">View</a>
+      {%else%}
+  			<a href="{{event.get_absolute_url}}" class="button sm alt scrolly" style="background-color: #e3f2fd; color: black;">View</a>
+        {% if event.seats > 0 %}
+        <a href="{% url 'ticket' event.id %}" class="button sm alt scrolly" style="background-color: #FFA500; color: #000034;">book ticket</a>
+        {% else %}
+        <input type="button" value="FULL" class="button sm alt scrolly" style="background-color: red; color: black;">
+        {% endif %}
+        {% endif %}
 		</div>
 
 	</div>

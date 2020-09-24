@@ -5,6 +5,9 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser
+)
 
 class Event(models.Model):
     event_organizer = models.ForeignKey(User, on_delete=models.CASCADE, default=1)

@@ -20,8 +20,9 @@
 </section>
 {% if request.user.is_anonymous %}
 	<a href="{% url 'signup' %}" class="button big alt scrolly" >Sign up to find events!</a>
-{%elif request.user_is_staff%}
+	{% elif request.user.is_staff %}
 <a class="button big alt scrolly"  style="background-color: #e3f2fd; color: black;" href="{% url 'event-create' %}" >Create new Event</a>
+<a class="button big alt scrolly"  style="background-color: #e3f2fd; color: black;" href="{% url 'event-list' %}" >Ccheck out the event</a>
 {%else%}
 	<a href="{% url 'event-list'%}" class="button big alt scrolly">Find events!</a>
 {% endif %}
